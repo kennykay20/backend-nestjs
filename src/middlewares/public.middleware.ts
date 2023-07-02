@@ -13,21 +13,17 @@ export class PublicMiddleware implements NestMiddleware {
     const reqClone: any = Object.assign({}, req);
     if (reqClone.signedCookies && reqClone.signedCookies.accessToken) {
       token = reqClone.signedCookies.accessToken;
-      console.log('signed token inside publicmiddlewa ', token);
     } else {
       const headers = req.headers;
-      console.log('headers inside publicmiddlewa ', headers);
       if (headers['authorization'] === undefined) {
         return next();
       }
       token = headers['authorization'].split(' ')[1];
-      console.log('no signed token inside publicmiddlewa ', token);
       if (token === undefined) {
         return next();
       }
     }
 
-    console.log('after if and else inside publicmiddlewa ', token);
     try {
       if (token && token !== 'undefined') {
         jwt.verify(token, secret, (err, decoded) => {
@@ -37,7 +33,6 @@ export class PublicMiddleware implements NestMiddleware {
             roles: '',
             email: '',
           });
-          console.log('req.headers.user: ', req.headers);
         });
       } else {
         return next();

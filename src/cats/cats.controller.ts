@@ -19,7 +19,6 @@ export class CatsController {
   @Get(':id')
   async GetCatById(@Req() req: Request): Promise<string> {
     const { id } = req.params;
-    console.log('id: ', id);
     return `cat with id ${id} found`;
   }
 }

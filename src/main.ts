@@ -19,13 +19,8 @@ async function bootstrap() {
   const secret = await authService.getSecretKey();
   app.set('trust proxy', 1);
   app.use(SessionMiddleware(secret));
-  // console.log('next called to cookieParser ');
   app.use(cookieParser(secret));
-  // console.log('after cookieParser');
-  // console.log(cookieParser);
-  // console.log('next called to selftokenmiddleware ');
   app.use(SelfTokenMiddleware);
-  // console.log('next call after selfTokenMiddleware ');
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: false,

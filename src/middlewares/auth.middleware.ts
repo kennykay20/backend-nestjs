@@ -9,17 +9,13 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: () => any) {
     const secret = await this.authSvc.getSecretKey();
-    //console.log('secret in middleware', secret);
     let token = '';
     const authHeader =
       req.headers.authorization || req.headers['authorization'];
 
-    console.log('authHeader : inside authmiddlewa ', authHeader);
     const reqClone: any = Object.assign({}, req);
-    console.log('reqClone: signedCookies: ', reqClone.signedCookies);
     if (reqClone.signedCookies && reqClone.signedCookies.accessToken) {
       token = reqClone.signedCookies.accessToken;
-      console.log('signedtoken: inside authmiddlewa ', token);
     } else {
       console.log('no signedCookies ');
       if (!authHeader) {
@@ -48,7 +44,6 @@ export class AuthMiddleware implements NestMiddleware {
           roles: '',
           email: '',
         });
-        console.log('req.headers.user: ', req.headers);
       });
     } catch (error) {
       console.log('ERROR.VERIFY.TOKEN');

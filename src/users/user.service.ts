@@ -24,7 +24,6 @@ export class UserService {
   async getAllUser(res: Response): Promise<any> {
     try {
       const user = await this.userRepo.find();
-      //return res.status(200).json({ user });
       return res.status(200).json({ user });
     } catch (error) {
       return res
@@ -53,7 +52,6 @@ export class UserService {
   }
 
   async handleRegisterUser(data: CreateUserDTO, res: Response): Promise<any> {
-    console.log(data);
     const { email, username, password, phone } = data;
     if (!username || !email || !password) {
       // return message
@@ -179,17 +177,12 @@ export class UserService {
   }
 
   async handleLogoutUser(req: Request, res: Response): Promise<any> {
-    console.log('cookiesss ', req.cookies);
     const token = req.cookies.accessToken || req.signedCookies.accessToken;
-    console.log('token before ooo ', token);
     if (!token) {
       return res.sendStatus(204);
     }
-    console.log('token again ', token);
     const user: any = JSON.parse(JSON.stringify(req.headers.user));
-    console.log('user again ', user);
     const foundUser = await this.getUserById(user?.id, res);
-    console.log('foundUser ', foundUser);
     try {
       if (!foundUser) {
         console.log('no founduser: ');
@@ -206,8 +199,6 @@ export class UserService {
         sameSite: 'none',
         secure: true,
       });
-      console.log('after clear cookies n ', req.cookies);
-      console.log('after cleared signedcookies n:: ', req.signedCookies);
       return res.sendStatus(204);
     } catch (error) {
       console.log('ERROR.LOGOUT.USER');

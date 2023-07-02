@@ -8,7 +8,6 @@ export function SelfTokenMiddleware(
   next: () => any,
 ) {
   const token = req.signedCookies.accessToken;
-  console.log('inside selftokenMiddlew token: ', token);
   const hundredYears = 100 * 365 * 24 * 60 * 60 * 1000;
   if (!token) {
     res.cookie('accessToken ', uuidv4(), {
@@ -19,7 +18,6 @@ export function SelfTokenMiddleware(
       httpOnly: false,
     });
   }
-  //console.log('token sets here : ', token);
   return next();
 }
 
@@ -36,7 +34,7 @@ export function SessionMiddleware(secret: string) {
       signed: true,
       httpOnly: false,
     },
-    name: 'autochek.sid',
+    name: 'kennybowen.sid',
     proxy: true,
     rolling: true,
   });
